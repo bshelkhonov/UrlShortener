@@ -6,8 +6,8 @@ from flask import (
     url_for
 )
 
-from .models import db, Link
-from .shorten_link import is_valid, shorten, add_to_db
+from .models import Link
+from .shorten_link import is_valid, add_to_db
 
 module = Blueprint("shorten", __name__)
 
