@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Bulat's shortener
+
+{% endblock %}
+
+
+{% block content1 %}
+<div id="main-container">
+  <form id="main-form" method="post" action="/">
+    <input type="text" class="form-url-input"
+       placeholder="Your url" name="link">
+    <input type="submit" value="Сократить">
+  </form>
+  <div id="output">
+    {{ result }}
+  </div>
+</div>
+
+
+{% endblock %}
+
