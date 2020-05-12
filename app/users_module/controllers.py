@@ -63,7 +63,7 @@ def register():
 
 
 @users_module.after_request
-def redirect_to_signin(response):
+def redirect_to_sign_in(response):
     if response.status_code == 401:
         return redirect(
             url_for("users_module.login_page") + "?next=" + request.url)

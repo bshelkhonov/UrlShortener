@@ -8,7 +8,7 @@ from flask import (
 from flask_login import login_required
 
 from .models import Link
-from .shorten_link import is_valid, add_to_db
+from .shorten_link import is_valid, add_to_db, add_prefix
 
 short_link_module = Blueprint("short_link_module", __name__)
 
@@ -21,6 +21,7 @@ def index():
         link = request.form["link"]
         if link == "":
             return redirect((url_for("shorten.index")))
+        link = add_prefix(link)
         if not is_valid(link):
             return render_template("index.html", result="Invalid link")
         short_link = add_to_db(link)
@@ -41,10 +42,14 @@ def get_shorten_link(short_link):
     result = Link.query.filter(Link.short_link == short_link).all()
     if len(result) == 0:
         return redirect(url_for("shorten.index"))
-    return redirect("http://" + result[0].original_link, code=302)
+
+    original_link = result[0].original_link
+
+    return redirect(original_link, code=302)
+
 
 @short_link_module.after_request
-def redirect_to_signin(response):
+def redirect_to_sign_in(response):
     if response.status_code == 401:
         return redirect(
             url_for("users_module.login_page") + "?next=" + request.url)

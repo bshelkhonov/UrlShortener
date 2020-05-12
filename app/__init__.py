@@ -28,5 +28,4 @@ def create_app():
     app.register_blueprint(short_link_module)
     app.register_blueprint(users_module)
 
-
     return app
