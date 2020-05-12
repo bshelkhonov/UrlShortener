@@ -8,13 +8,18 @@
 
 
 {% block content %}
+
+
 <form id="main-form" method="post" action="/">
   <input type="text" id="form-url-input"
      placeholder="Your url" name="link">
   <input type="submit" id="submit-url" value="Сократить">
 </form>
-<div id="output">
-  {{ result }}
+<div id="output-block">
+  <div id="output">{{ result }}</div>
+  {% if result %}
+    <a id="copy-button" href="#" onClick="clip_div('output')">Скопировать</a>
+  {% endif %}
 </div>
 
 

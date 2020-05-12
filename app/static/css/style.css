@@ -18,12 +18,6 @@
   font-size: 2vw;
 }
 
-#output {
-  margin-top: 10vh;
-  font-size: 2vw;
-  align-self: center;
-}
-
 #header {
   color: white;
   display: flex;
@@ -118,4 +112,24 @@
   border: 1px solid gray;
   width: 5vw;
   text-align: center;
+}
+
+#output-block {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 10vh;
+  width: 40vw;
+  font-size: 2vw;
+}
+
+#output {
+
+  font-size: 2vw;
+  align-self: center;
+}
+
+#copy-button {
+  height: 4vh;
+  margin-left: 10vw;
 }
