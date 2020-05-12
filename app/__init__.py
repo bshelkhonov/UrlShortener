@@ -4,8 +4,7 @@ from flask import Flask
 
 from .database import db
 from .login_manager import lm
-from .short_link_module.controllers import \
-    short_link_module
+from .short_link_module.controllers import short_link_module
 from .users_module.controllers import users_module
 import config
 
