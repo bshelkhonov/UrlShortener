@@ -5,14 +5,15 @@ from flask import (
     request,
     url_for
 )
+from flask_login import login_required
 
 from .models import Link
 from .shorten_link import is_valid, add_to_db
 
-module = Blueprint("shorten", __name__)
+short_link_module = Blueprint("short_link_module", __name__)
 
 
-@module.route("/", methods=["GET", "POST"])
+@short_link_module.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "GET":
         return render_template("index.html", result="")
@@ -29,14 +30,22 @@ def index():
                                result=request.host + "/" + short_link)
 
 
-@module.route("/history", methods=["GET"])
+@short_link_module.route("/history", methods=["GET"])
+@login_required
 def history():
     return render_template("history.html")
 
 
-@module.route("/<short_link>")
+@short_link_module.route("/<short_link>")
 def get_shorten_link(short_link):
     result = Link.query.filter(Link.short_link == short_link).all()
     if len(result) == 0:
         return redirect(url_for("shorten.index"))
     return redirect("http://" + result[0].original_link, code=302)
+
+@short_link_module.after_request
+def redirect_to_signin(response):
+    if response.status_code == 401:
+        return redirect(
+            url_for("users_module.login_page") + "?next=" + request.url)
+    return response

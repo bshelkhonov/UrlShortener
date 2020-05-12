@@ -36,12 +36,14 @@
       font-size: 2vw;
     }
 
+
   </style>
 
 </head>
 <body>
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-  <a class="navbar-brand" href={{ url_for("shorten.index") }}>ИзиСсылка</a>
+  <a class="navbar-brand" href={{ url_for("short_link_module.index")
+  }}>ИзиСсылка</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse"
           data-target="#navbarsExample03" aria-controls="navbarsExample03"
           aria-expanded="false" aria-label="Toggle navigation">
@@ -51,12 +53,13 @@
   <div class="collapse navbar-collapse" id="navbarsExample03">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href={{ url_for("shorten.history") }}>История</a>
+        <a class="nav-link" href={{ url_for("short_link_module.history")
+        }}>История</a>
       </li>
     </ul>
   </div>
 </nav>
-{% block content1 %}
+{% block content %}
 
 {% endblock %}
 

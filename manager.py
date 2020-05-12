@@ -3,8 +3,7 @@ from flask_migrate import Migrate, MigrateCommand
 from app import create_app
 from app.database import db
 
-
-def main():
+if __name__ == "__main__":
     app = create_app()
 
     migrate = Migrate(app, db)
@@ -12,7 +11,3 @@ def main():
 
     manager.add_command("db", MigrateCommand)
     manager.run()
-
-
-if __name__ == "__main__":
-    main()
