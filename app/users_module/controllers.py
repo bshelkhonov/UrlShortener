@@ -47,18 +47,15 @@ def register():
     login = request.form.get("login")
     password = request.form.get("password")
 
-    if request.method == "POST":
-        print(login, password)
-        if not (login and password):
-            flash("Заполните все поля")
-        else:
-            print("register")
-            password_hash = generate_password_hash(password)
-            new_user = User(username=login, password_hash=password_hash)
-            db.session.add(new_user)
-            db.session.commit()
+    if not (login and password):
+        flash("Заполните все поля")
+    else:
+        password_hash = generate_password_hash(password)
+        new_user = User(username=login, password_hash=password_hash)
+        db.session.add(new_user)
+        db.session.commit()
 
-            return redirect(url_for("short_link_module.index"))
+        return redirect(url_for("short_link_module.index"))
     return render_template("users_module/register.html")
 
 

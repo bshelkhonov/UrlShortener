@@ -9,29 +9,33 @@
 {% block content %}
 
 
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
+
+
+
+<form id="login-form" method="POST">
+  {% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+  {% for message in messages %}
+  <li>{{ message }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
 {% endwith %}
-
-
-
-<form method="POST">
   <table>
     <tr>
-      <td><input type="text" placeholder="Логин" name="login"></td>
+      <td><input class="input-login" type="text" placeholder="Логин"
+                 name="login"></td>
     </tr>
     <tr>
-      <td><input type="text" placeholder="Пароль" name="password"></td>
+      <td><input class="input-login" type="text" placeholder="Пароль"
+                 name="password"></td>
+    </tr>
+    <tr>
+      <td><input class="login-button" type="submit" value="Войти"></td>
     </tr>
     <tr>
       <td><a href={{ url_for("users_module.register") }}>Нет аккаунта</a></td>
-      <td><input type="submit" value="Войти"></td>
     </tr>
   </table>
 </form>
