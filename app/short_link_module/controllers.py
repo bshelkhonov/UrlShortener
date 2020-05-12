@@ -5,10 +5,10 @@ from flask import (
     request,
     url_for
 )
-from flask_login import login_required
 
 from .models import Link
 from .shorten_link import is_valid, add_to_db, add_prefix
+from app.database import db
 
 short_link_module = Blueprint("short_link_module", __name__)
 
@@ -37,18 +37,14 @@ def index():
             url_for("short_link_module.index") + "?result=" + short_link)
 
 
-@short_link_module.route("/history", methods=["GET"])
-@login_required
-def history():
-    return render_template("history.html")
-
-
 @short_link_module.route("/<short_link>")
 def get_shorten_link(short_link):
     result = Link.query.filter(Link.short_link == short_link).first()
     if not result:
         return redirect(url_for("short_link_module.index"))
 
+    result.usages_num += 1
+    db.session.commit()
     original_link = result.original_link
 
     return redirect(original_link, code=302)

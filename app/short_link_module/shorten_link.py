@@ -3,9 +3,13 @@ import random
 from string import digits, ascii_lowercase, ascii_uppercase
 
 import requests
+from flask_login import current_user
 
 from app.database import db
+from app.users_module.models import User
 from .models import Link
+
+MAX_TAGS_PER_USER = 100
 
 
 def add_prefix(link: str) -> str:
@@ -25,7 +29,7 @@ def is_valid(link: str) -> bool:
         return False
 
 
-def shorten() -> str:
+def make_short_link() -> str:
     alphabet = digits + ascii_lowercase + ascii_uppercase
     n = random.randint(0, 62 ** 5)
     short = ""
@@ -39,11 +43,13 @@ def shorten() -> str:
 
 
 def add_to_db(link: str):
-    find_link = Link.query.filter(Link.original_link == link).all()
-    if len(find_link) != 0:
-        return find_link[0].short_link
-    short = shorten()
+    short = make_short_link()
+    while Link.query.filter_by(short_link=short).first():
+        short = make_short_link()
     new_elem = Link(original_link=link, short_link=short)
     db.session.add(new_elem)
+    if current_user.is_authenticated:
+        user = User.query.filter(User.id == current_user.id).first()
+        user.links.append(new_elem)
     db.session.commit()
     return short

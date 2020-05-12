@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+  Bulat's shortener
+
+{% endblock %}
+
+
+{% block content %}
+<div id="history-title">История ваших ссылок</div>
+<table>
+  <tr><th>Исходная ссылка</th><th>Сокращённая</th><th>Количество переходов</th></tr>
+  {% for link in current_user.links.all() %}
+  <tr><td>{{ link.original_link }}</td><td>{{ link.short_link }}</td><td class="num-column">{{ link.usages_num }}</td></tr>
+  {% endfor%}
+</table>
+{% endblock %}

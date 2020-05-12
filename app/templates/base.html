@@ -2,95 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet"
+      type="text/css"
+      href="static/css/style.css">
+
   <link rel="icon"
         href="https://img.icons8.com/dusk/64/000000/google-sites.png">
-
   <title>
     {% block title %}
 
     {% endblock %}
   </title>
 
-  <style type="text/css">
-    #main-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100vw;
-    }
-    #main-form {
-      margin-top: 20vh;
-    }
-    #form-url-input {
-      font-size: 2vw;
-      width: 40vw;
-    }
-    #submit-url {
-      font-size: 2vw;
-    }
-    #output {
-      margin-top: 10vh;
-      font-size: 2vw;
-      align-self: center;
-    }
-    #header {
-      color: white;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      background-color: #5181b8;
-      height: 10vh;
-      width: 100vw;
-      align-content: center;
-    }
-    #main-logo {
-      width: 20vw;
-      height: 7vh;
-      margin-left: 2vw;
-      font-size: 5vh;
-      color: white;
-      align-self: center;
-    }
-    #history-link {
-      margin-left: 1vw;
-      width: 10vw;
-      height: 5vh;
-      font-size: 4vh;
-      color: white;
-    }
-
-    #login-form {
-      margin-top: 10vh;
-      font-size: 2vh;
-    }
-    .input-login {
-      width: 30vw;
-      font-size: 3vh;
-      margin-top: 1vh;
-    }
-    .login-button {
-      font-size: 2vh;
-      width: 12vw;
-      margin-top: 1vh;
-      margin-bottom: 1vh;
-    }
-    #user-block {
-      font-size: 3vh;
-      position: absolute;
-      right: 1vw;
-      top: 4.5vh;
-      display: flex;
-      flex-direction: row;
-    }
-    #greeting {
-      margin-right: 1vw;
-    }
-    #login-link {
-      color: white;
-    }
-
-
-  </style>
 
 </head>
 <body>
@@ -98,7 +21,7 @@
   <a id="main-logo" href={{ url_for("short_link_module.index")
   }}>ИзиСсылка</a>
 
-  <a id="history-link" href={{ url_for("short_link_module.history")
+  <a id="history-link" href={{ url_for("users_module.history")
   }}>История</a>
   <div id="user-block">
     {% if current_user.is_authenticated %}

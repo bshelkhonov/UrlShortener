@@ -15,6 +15,12 @@ from .models import User
 users_module = Blueprint("users_module", __name__)
 
 
+@users_module.route("/history", methods=["GET"])
+@login_required
+def history():
+    return render_template("users_module/history.html")
+
+
 @users_module.route("/login", methods=["GET", "POST"])
 def login_page():
     if current_user.is_authenticated:
