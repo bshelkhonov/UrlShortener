@@ -7,7 +7,7 @@ from flask import (
     flash
 )
 from werkzeug.security import check_password_hash, generate_password_hash
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 from app.database import db
 
 from .models import User
@@ -17,6 +17,10 @@ users_module = Blueprint("users_module", __name__)
 
 @users_module.route("/login", methods=["GET", "POST"])
 def login_page():
+    if current_user.is_authenticated:
+        print(current_user.username)
+        return redirect(url_for("short_link_module.index"))
+
     login = request.form.get("login")
     password = request.form.get("password")
 
@@ -50,6 +54,10 @@ def register():
     if not (login and password):
         flash("Заполните все поля")
     else:
+        if User.query.filter_by(username=login).first():
+            flash("Этот логин уже занят")
+            return render_template("users_module/register.html")
+
         password_hash = generate_password_hash(password)
         new_user = User(username=login, password_hash=password_hash)
         db.session.add(new_user)

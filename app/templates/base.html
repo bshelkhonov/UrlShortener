@@ -34,6 +34,7 @@
       align-self: center;
     }
     #header {
+      color: white;
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -73,6 +74,20 @@
       margin-top: 1vh;
       margin-bottom: 1vh;
     }
+    #user-block {
+      font-size: 3vh;
+      position: absolute;
+      right: 1vw;
+      top: 4.5vh;
+      display: flex;
+      flex-direction: row;
+    }
+    #greeting {
+      margin-right: 1vw;
+    }
+    #login-link {
+      color: white;
+    }
 
 
   </style>
@@ -85,11 +100,20 @@
 
   <a id="history-link" href={{ url_for("short_link_module.history")
   }}>История</a>
+  <div id="user-block">
+    {% if current_user.is_authenticated %}
+      <div id="greeting">Привет, {{ current_user.username }}!</div>
+      <a id="login-link" href={{ url_for("users_module.logout") }}>Выйти</a>
+    {% else %}
+    <a id="login-link" href={{ url_for("users_module.login_page") }}>Войти</a>
+
+    {% endif %}
+  </div>
 </div>
 <div id="main-container">
-{% block content %}
+  {% block content %}
 
-{% endblock %}
+  {% endblock %}
 </div>
 
 </body>
