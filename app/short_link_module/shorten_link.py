@@ -18,8 +18,11 @@ def add_prefix(link: str) -> str:
 
 
 def is_valid(link: str) -> bool:
-    response = requests.head(link)
-    return response.status_code < 400
+    try:
+        response = requests.head(link)
+        return response.status_code < 400
+    except requests.exceptions.ConnectionError:
+        return False
 
 
 def shorten() -> str:
