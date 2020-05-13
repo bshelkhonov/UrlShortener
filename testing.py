@@ -16,6 +16,7 @@ class AppTestCase(unittest.TestCase):
     def setUp(self):
         self.db_fd, self.db_file = tempfile.mkstemp()
 
+        self.previous = os.environ.get("APP_SETTINGS")
         os.environ["APP_SETTINGS"] = "config.TestingConfig"
 
         config.TestingConfig.SQLALCHEMY_DATABASE_URI = "sqlite:///" + \
@@ -27,6 +28,10 @@ class AppTestCase(unittest.TestCase):
     def tearDown(self):
         os.close(self.db_fd)
         os.unlink(self.db_file)
+        if self.previous is None:
+            del os.environ["APP_SETTINGS"]
+        else:
+            os.environ["APP_SETTINGS"] = self.previous
 
     def send_link(self, url):
         return self.test_app.post("/", data=dict(link=url),
