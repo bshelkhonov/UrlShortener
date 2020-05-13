@@ -11,12 +11,9 @@ import config
 
 def create_app():
     app = Flask(__name__)
-    app.secret_key = "Won't you fly hiigh, ooh free biiird yeah"
 
-    if "APP_SETTINGS" in os.environ:
-        app.config.from_object(os.environ["APP_SETTINGS"])
-    else:
-        app.config.from_object(config.ReleaseConfig)
+    app.config.from_object(
+        os.environ.get("APP_SETTINGS") or config.ReleaseConfig)
 
     db.init_app(app)
     lm.init_app(app)
