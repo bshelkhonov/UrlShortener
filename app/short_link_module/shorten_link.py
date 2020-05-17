@@ -1,9 +1,9 @@
-import re
 import random
 from string import digits, ascii_lowercase, ascii_uppercase
 
-import requests
 from flask_login import current_user
+from urllib.parse import urlparse
+from urllib.parse import urljoin
 
 from app.database import db
 from app.users_module.models import User
@@ -12,21 +12,33 @@ from .models import Link
 MAX_TAGS_PER_USER = 100
 
 
+def http_normalize_slashes(url):
+    url = str(url)
+    segments = url.split('/')
+    correct_segments = []
+    for segment in segments:
+        if segment != '':
+            correct_segments.append(segment)
+    first_segment = str(correct_segments[0])
+    if first_segment.find('http') == -1:
+        correct_segments = ['http:'] + correct_segments
+    correct_segments[0] = correct_segments[0] + '/'
+    normalized_url = '/'.join(correct_segments)
+    return normalized_url
+
+
 def add_prefix(link: str) -> str:
-    if len(link) < 5:
-        return "http://" + link
-    prefix = link[:5].lower()
-    if not prefix.startswith("http") and not prefix.startswith("https"):
-        link = "http://" + link
-    return link
+    parsed_url = urlparse(link)
+    if not parsed_url.scheme:
+        parsed_url = parsed_url._replace(scheme="http")
+    return http_normalize_slashes(parsed_url.geturl())
 
 
 def is_valid(link: str) -> bool:
-    try:
-        response = requests.head(link)
-        return response.status_code < 400
-    except requests.exceptions.ConnectionError:
-        return False
+    parsed_url = urlparse(urljoin(link, "/"))
+    is_correct = (all([parsed_url.scheme, parsed_url.netloc, parsed_url.path])
+                  and len(parsed_url.netloc.split(".")) > 1)
+    return is_correct
 
 
 def make_short_link() -> str:
