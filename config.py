@@ -1,16 +1,29 @@
 import os
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
-class DevelopmentConfig:
+class BaseConfig:
+    SECRET_KEY = os.environ.get("SECRET_KEY") or \
+                 "Won't you fly hiigh, ooh free biiird yeah"
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+
+class DevelopmentConfig(BaseConfig):
     DEBUG = True
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-    # SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://root:1234@localhost/test1"
-    SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "app.db")
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        "DEVELOPMENT_DATABASE_URI") or "sqlite:///" + os.path.join(basedir,
+                                                                   "app.db")
 
 
-class ReleaseConfig:
+class ReleaseConfig(BaseConfig):
     DEBUG = False
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-    # SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://root:1234@localhost/test1"
-    SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "app.db")
+    SQLALCHEMY_DATABASE_URI = os.environ.get("RELEASE_DATABASE_URI") \
+                              or "sqlite:///" + os.path.join(basedir, "app.db")
+
+
+class TestingConfig(BaseConfig):
+    DEBUG = True
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get('TESTING_DATABASE_URI') or \
+                              "sqlite:///" + os.path.join(basedir, "app.db")

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Bulat's shortener
+
+{% endblock %}
+
+
+{% block content %}
+<div id="history-title">История ваших ссылок</div>
+<table id="history-table">
+  <tr>
+    <th class="history-th">Исходная ссылка</th>
+    <th class="history-th">Сокращённая</th>
+    <th class="history-th">Количество переходов</th>
+  </tr>
+  {% for link in current_user.links.all() %}
+  <tr>
+    <td class="history-td">
+      <a href={{ link.original_link }}>{{ link.original_link }}</a>
+    </td>
+    <td class="history-td">
+      <a href={{ link.short_link }}>{{ request.host + "/"
+      + link.short_link }}</a>
+    </td>
+    <td class="num-column">{{ link.usages_num }}</td>
+  </tr>
+  {% endfor%}
+</table>
+{% endblock %}

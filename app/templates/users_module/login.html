@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+Вход | ИзиСсылка
+
+{% endblock %}
+
+{% block content %}
+
+
+
+
+
+<form id="login-form" method="POST">
+  {% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+  {% for message in messages %}
+  <li>{{ message }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+  <table>
+    <tr>
+      <td><input class="input-login" type="text" placeholder="Логин"
+                 name="login"></td>
+    </tr>
+    <tr>
+      <td><input class="input-login" type="text" placeholder="Пароль"
+                 name="password"></td>
+    </tr>
+    <tr>
+      <td><input class="login-button" type="submit" value="Войти"></td>
+    </tr>
+    <tr>
+      <td><a href={{ url_for("users_module.register") }}>Нет аккаунта</a></td>
+    </tr>
+  </table>
+</form>
+
+{% endblock %}
